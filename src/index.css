@@ -1,1 +1,208 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Unbounded", "IBM Plex Sans", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Consolas", monospace;
+
+  --color-ink-950: #0a121b;
+  --color-ink-900: #0e1823;
+  --color-ink-850: #122031;
+  --color-ink-800: #16283c;
+  --color-ink-700: #1e3349;
+  --color-ink-600: #2a4560;
+  --color-ink-400: #55708a;
+  --color-ink-300: #7c93a9;
+  --color-ink-200: #b9c9d8;
+  --color-ink-100: #dde6ee;
+
+  --color-paper-50: #f5f7f6;
+  --color-paper-100: #eef1f0;
+  --color-paper-200: #e2e7e6;
+  --color-paper-300: #cfd7d6;
+
+  --color-blueprint-700: #1b3f9e;
+  --color-blueprint-600: #2350c4;
+  --color-blueprint-500: #2e5fd8;
+  --color-blueprint-100: #dde7fa;
+  --color-blueprint-50: #ecf1fc;
+
+  --color-brass-600: #d18f0a;
+  --color-brass-500: #f0a81c;
+  --color-brass-400: #ffc145;
+  --color-brass-100: #fdeecb;
+
+  --color-rust-600: #b23c3a;
+  --color-rust-500: #c6403e;
+  --color-rust-100: #f8e2e1;
+
+  --color-moss-600: #1e7f52;
+  --color-moss-500: #269363;
+  --color-moss-100: #d9efe4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-paper-100);
+  color: var(--color-ink-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- миллиметровка основного поля ---- */
+.blueprint-paper {
+  background-color: var(--color-paper-100);
+  background-image:
+    linear-gradient(rgba(27, 63, 158, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 63, 158, 0.055) 1px, transparent 1px),
+    linear-gradient(rgba(27, 63, 158, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 63, 158, 0.09) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+}
+
+/* ---- штриховка тёмного сайдбара ---- */
+.ink-hatch {
+  background-color: var(--color-ink-900);
+  background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(240, 168, 28, 0.028) 0 2px,
+      transparent 2px 14px
+    ),
+    radial-gradient(1200px 500px at 110% -10%, rgba(46, 95, 216, 0.16), transparent 60%);
+}
+
+/* ---- scroll reveal ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- штамп ---- */
+@keyframes stamp-in {
+  0% {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.9);
+  }
+  62% {
+    opacity: 1;
+    transform: rotate(-7deg) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(1);
+  }
+}
+.stamp-in {
+  animation: stamp-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---- LED ---- */
+@keyframes led-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 0 5px transparent;
+    opacity: 0.55;
+  }
+}
+.led {
+  animation: led-pulse 1.6s ease-in-out infinite;
+}
+
+/* ---- бегущий пунктир ---- */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.dash-flow {
+  animation: dash-flow 1.2s linear infinite;
+}
+
+/* ---- появление строк ---- */
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.row-in {
+  animation: row-in 0.4s ease both;
+}
+
+/* ---- полосы прогресса ---- */
+@keyframes stripes-move {
+  to {
+    background-position: 24px 0;
+  }
+}
+.stripes {
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.28) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.28) 75%,
+    transparent 75%
+  );
+  background-size: 24px 24px;
+  animation: stripes-move 0.8s linear infinite;
+}
+
+/* ---- панель кода ---- */
+.code-panel {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.55;
+  tab-size: 4;
+}
+
+/* тонкие скроллбары */
+.slim-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.slim-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 4px;
+}
+.slim-scroll-light::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.slim-scroll-light::-webkit-scrollbar-thumb {
+  background: var(--color-paper-300);
+  border-radius: 4px;
+}
+
+/* dropzone */
+.dropzone {
+  transition: border-color 0.25s ease, background-color 0.25s ease,
+    transform 0.25s ease, box-shadow 0.25s ease;
+}
+.dropzone:hover {
+  transform: translateY(-2px);
+}
+.dropzone.drag {
+  border-color: var(--color-brass-500);
+  background-color: rgba(240, 168, 28, 0.09);
+  box-shadow: 0 0 0 4px rgba(240, 168, 28, 0.14);
+}
