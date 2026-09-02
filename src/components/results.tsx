@@ -361,7 +361,7 @@ export function Results({
           <div className="mr-auto">
             <div className="text-[13px] font-bold text-paper-50">Готовый файл</div>
             <div className="font-mono text-[10.5px] uppercase tracking-wider text-ink-300">
-              ВОР · Статистика · Не найдено · Промпт
+              ВОР · Статистика · Не найдено
             </div>
           </div>
           {xlsxUrl && (

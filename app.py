@@ -452,16 +452,11 @@ if run:
                 df_nf = pd.DataFrame([["—", "—", "Все позиции обработаны", "", "—", "—"]],
                                      columns=df_nf.columns)
 
-            df_prompt = pd.DataFrame(
-                [{"№": i + 1, "Текст Промпт.txt": s}
-                 for i, s in enumerate(active_prompt.split("\n"))])
-
             buf = io.BytesIO()
             with pd.ExcelWriter(buf, engine="openpyxl") as writer:
                 df_vor.to_excel(writer, sheet_name="ВОР", index=False)
                 df_stat.to_excel(writer, sheet_name="Статистика", index=False)
                 df_nf.to_excel(writer, sheet_name="Не найдено", index=False)
-                df_prompt.to_excel(writer, sheet_name="Промпт", index=False)
                 ws = writer.sheets["ВОР"]
                 widths = [8, 12, 10, 8, 64, 7, 10, 10, 10, 12, 16]
                 for i, w in enumerate(widths, start=1):

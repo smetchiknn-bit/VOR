@@ -5,7 +5,7 @@ import { BUILTIN_PROMPT, type PromptState } from "./lib/prompt";
 import { getDemoFiles } from "./lib/demo";
 import { Results } from "./components/results";
 import { Pipeline, RulesReference, TmcAlgo, FormatCard } from "./components/reference";
-import { PythonPanel } from "./components/pythonPanel";
+import { PythonMenuButton } from "./components/pythonPanel";
 import {
   FileDrop,
   SectionTitle,
@@ -161,8 +161,8 @@ function ServiceDrawer({
               Промпт.txt
             </h3>
             <p className="mt-1 text-[11.5px] leading-relaxed text-ink-300">
-              Замена текста промпта. Действует в этом браузере и фиксируется на листе
-              «Промпт» файла ВОР.xlsx. Для непосвящённых кнопки не существует.
+              Замена текста промпта. Действует в этом браузере и применяется при
+              формировании ВОР. Для непосвящённых кнопки не существует.
             </p>
           </div>
           <button
@@ -600,9 +600,6 @@ function AppInner() {
                   <span className="h-1.5 w-1.5 bg-brass-500" title="Промпт заменён" />
                 )}
               </span>
-              <a href="#python" className="transition-colors hover:text-brass-500">
-                app.py ↓
-              </a>
             </div>
 
             {/* скрытая служебная кнопка — почти невидима, проявляется при наведении */}
@@ -624,18 +621,16 @@ function AppInner() {
           <header className="border-b-2 border-ink-900/80">
             <div className="flex flex-wrap items-stretch">
               <div className="flex min-w-[280px] flex-1 flex-col justify-center gap-1 border-r border-ink-900/15 px-6 py-5 sm:px-9">
-                <div className="font-mono text-[10.5px] uppercase tracking-[0.3em] text-blueprint-600">
-                  СМЕТНЫЙ ОТДЕЛ · ПИД «ВОС»
+                <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-blueprint-600">
+                  ПРОИЗВОДСТВЕННО-ТЕХНИЧЕСКИЙ ОТДЕЛ · ООО «ФСК-Р»
                 </div>
-                <h1 className="font-display text-[clamp(28px,4.5vw,54px)] font-black uppercase leading-[0.95] tracking-tight text-ink-900">
-                  <span
-                    className="cursor-default select-none transition-colors hover:text-blueprint-700"
-                    onClick={onTitleSecret}
-                    title="Генератор ВОР"
-                  >
-                    ВОР
-                  </span>
-                  <span className="text-brass-600">·</span>ГЕН
+                <h1
+                  className="font-display cursor-default select-none text-[clamp(20px,3.4vw,40px)] font-black uppercase leading-[1.02] tracking-tight text-ink-900"
+                  onClick={onTitleSecret}
+                  title="Генератор ВОР"
+                >
+                  <span className="transition-colors hover:text-blueprint-700">ГЕНЕРАТОР</span>
+                  <span className="text-brass-600">·</span>ВОР
                 </h1>
                 <p className="max-w-xl text-[13px] leading-relaxed text-ink-400">
                   Автоматическое формирование ведомости объёмов работ: привязка кодов КЕР и
@@ -643,26 +638,7 @@ function AppInner() {
                   экспорт в ВОР.xlsx.
                 </p>
               </div>
-              <div className="hidden grid-cols-2 md:grid">
-                {[
-                  ["Объект", "ЖК «Северный»"],
-                  ["Раздел", "ОВ · вентиляция"],
-                  ["Стадия", "Р / С"],
-                  ["Лист", "01"],
-                ].map(([k, v], i) => (
-                  <div
-                    key={k}
-                    className={`flex min-w-[130px] flex-col justify-center border-b border-r border-ink-900/15 px-5 py-2 ${
-                      i % 2 === 1 ? "border-r-0" : ""
-                    } ${i >= 2 ? "border-b-0" : ""}`}
-                  >
-                    <span className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-ink-400">
-                      {k}
-                    </span>
-                    <span className="font-mono text-[12.5px] font-semibold text-ink-800">{v}</span>
-                  </div>
-                ))}
-              </div>
+
               <div className="flex items-center gap-3 border-l border-ink-900/15 px-6 py-5 lg:border-l-0">
                 <span className={`led h-2.5 w-2.5 rounded-full ${ledColor}`} />
                 <div>
@@ -729,23 +705,11 @@ function AppInner() {
               )}
             </section>
 
-            <section id="python">
-              <SectionTitle kicker="06 · streamlit" title="Python-версия app.py">
-                <span className="hidden max-w-xs border-l-2 border-brass-500 pl-3 text-[11.5px] leading-snug text-ink-400 sm:block">
-                  Полная Streamlit-реализация того же алгоритма — скачивается одним набором
-                  файлов и запускается локально.
-                </span>
-              </SectionTitle>
-              <PythonPanel />
-            </section>
-
             <footer className="flex flex-wrap items-center justify-between gap-3 border-t-2 border-ink-900 pt-5 pb-2">
               <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-400">
-                ВОС · генератор ВОР · {clock.getFullYear()}
+                ООО «ФСК-Р» · генератор ВОР · {clock.getFullYear()}
               </span>
-              <span className="font-mono text-[10.5px] text-ink-400">
-                ВОР.xlsx · ВОР_с_ТА.csv · app.py · requirements.txt · README.md
-              </span>
+              <PythonMenuButton />
             </footer>
           </div>
         </main>

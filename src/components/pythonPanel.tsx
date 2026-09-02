@@ -1,30 +1,24 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { APP_PY, README_MD, REQUIREMENTS_TXT } from "../lib/streamlit";
 import { textBlob } from "../lib/excelIo";
-import {
-  IconCheck,
-  IconCopy,
-  IconDownload,
-  IconTerminal,
-  Reveal,
-} from "./ui";
+import { IconCheck, IconDownload, IconTerminal } from "./ui";
 
 type FileKey = "app" | "req" | "readme";
 
-const FILES: Record<FileKey, { name: string; text: string; mime: string; lines: number }> = {
-  app: { name: "app.py", text: APP_PY, mime: "text/x-python;charset=utf-8", lines: APP_PY.split("\n").length },
-  req: {
-    name: "requirements.txt",
-    text: REQUIREMENTS_TXT,
-    mime: "text/plain;charset=utf-8",
-    lines: REQUIREMENTS_TXT.split("\n").length,
-  },
-  readme: { name: "README.md", text: README_MD, mime: "text/markdown;charset=utf-8", lines: README_MD.split("\n").length },
+const FILES: Record<FileKey, { name: string; text: string; mime: string }> = {
+  app: { name: "app.py", text: APP_PY, mime: "text/x-python;charset=utf-8" },
+  req: { name: "requirements.txt", text: REQUIREMENTS_TXT, mime: "text/plain;charset=utf-8" },
+  readme: { name: "README.md", text: README_MD, mime: "text/markdown;charset=utf-8" },
 };
 
-export function PythonPanel() {
-  const [active, setActive] = useState<FileKey>("app");
-  const [copied, setCopied] = useState(false);
+/**
+ * Кнопка «Python-версия · Streamlit» с контекстным меню:
+ * описание и скачивание набора файлов (app.py, requirements.txt, README.md).
+ */
+export function PythonMenuButton() {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState<FileKey | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   // прямые ссылки на blob — скачивание одним пользовательским кликом
   const urls = useMemo(
@@ -36,95 +30,102 @@ export function PythonPanel() {
     []
   );
 
-  const f = FILES[active];
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
-  const copy = async () => {
+  const copy = async (k: FileKey) => {
     try {
-      await navigator.clipboard.writeText(f.text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
+      await navigator.clipboard.writeText(FILES[k].text);
+      setCopied(k);
+      setTimeout(() => setCopied(null), 1400);
     } catch {
       /* клипборд недоступен */
     }
   };
 
   return (
-    <Reveal>
-      <div className="border-2 border-ink-900 bg-ink-900 text-ink-100">
-        <div className="flex flex-wrap items-center gap-3 border-b border-paper-50/10 px-5 py-3.5">
-          <IconTerminal className="h-5 w-5 text-brass-500" />
-          <div className="mr-auto">
-            <div className="font-display text-[15px] font-bold uppercase tracking-wide text-paper-50">
-              Python-версия · Streamlit
-            </div>
-            <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-ink-300">
-              app.py + requirements.txt + README.md · запуск: streamlit run app.py
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(FILES) as FileKey[]).map((k) => (
-              <a
-                key={k}
-                href={urls[k]}
-                download={FILES[k].name}
-                className="inline-flex items-center gap-1.5 border border-paper-50/20 px-3 py-1.5 font-mono text-[11px] font-semibold text-ink-100 transition-all hover:-translate-y-0.5 hover:border-brass-500 hover:text-brass-400"
-              >
-                <IconDownload className="h-3.5 w-3.5" />
-                {FILES[k].name}
-              </a>
-            ))}
-          </div>
-        </div>
+    <div ref={wrapRef} className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className={`inline-flex items-center gap-2 border px-4 py-2 font-display text-[11px] font-bold uppercase tracking-[0.08em] transition-all ${
+          open
+            ? "border-ink-900 bg-ink-900 text-brass-400 shadow-[0_6px_18px_rgba(14,24,35,0.25)]"
+            : "border-ink-900/40 bg-paper-50 text-ink-800 hover:-translate-y-0.5 hover:border-ink-900 hover:shadow-[0_4px_14px_rgba(14,24,35,0.12)]"
+        }`}
+      >
+        <IconTerminal className="h-4 w-4 text-brass-600" />
+        Python-версия · Streamlit
+        <svg
+          viewBox="0 0 12 12"
+          className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          aria-hidden
+        >
+          <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" />
+        </svg>
+      </button>
 
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex shrink-0 flex-row gap-1 border-b border-paper-50/10 p-3 lg:w-52 lg:flex-col lg:border-b-0 lg:border-r">
+      {open && (
+        <div className="absolute bottom-full right-0 z-40 mb-2 w-[320px] border-2 border-ink-900 bg-white shadow-[0_18px_44px_rgba(14,24,35,0.28)]">
+          <div className="border-b-2 border-ink-900 bg-ink-900 px-4 py-2.5">
+            <div className="font-mono text-[9.5px] uppercase tracking-[0.22em] text-brass-500">
+              контекстное меню
+            </div>
+            <p className="mt-1 text-[12px] leading-snug text-ink-100">
+              Полная Streamlit-реализация этого же алгоритма — скачивается одним набором
+              файлов.
+            </p>
+          </div>
+          <ul className="divide-y divide-ink-900/8">
             {(Object.keys(FILES) as FileKey[]).map((k) => (
-              <button
-                key={k}
-                onClick={() => setActive(k)}
-                className={`px-3 py-2 text-left font-mono text-[12px] transition-colors ${
-                  active === k
-                    ? "bg-brass-500 font-bold text-ink-950"
-                    : "text-ink-300 hover:bg-paper-50/5 hover:text-paper-50"
-                }`}
-              >
-                {FILES[k].name}
-                <span
-                  className={`ml-2 text-[10px] ${active === k ? "text-ink-800" : "text-ink-400"}`}
-                >
-                  {FILES[k].lines} стр.
+              <li key={k} className="flex items-center gap-2 px-3 py-2">
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-mono text-[12px] font-bold text-ink-800">
+                    {FILES[k].name}
+                  </span>
+                  <span className="block font-mono text-[9.5px] uppercase tracking-wider text-ink-400">
+                    {FILES[k].text.split("\n").length} строк
+                  </span>
                 </span>
-              </button>
+                <button
+                  onClick={() => copy(k)}
+                  className={`border px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider transition-colors ${
+                    copied === k
+                      ? "border-moss-500 text-moss-600"
+                      : "border-ink-900/25 text-ink-400 hover:border-ink-900 hover:text-ink-800"
+                  }`}
+                  title="Скопировать содержимое"
+                >
+                  {copied === k ? <IconCheck className="h-3.5 w-3.5" /> : "код"}
+                </button>
+                <a
+                  href={urls[k]}
+                  download={FILES[k].name}
+                  className="inline-flex items-center gap-1 border border-ink-900/25 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-ink-800 transition-colors hover:border-brass-600 hover:bg-brass-100/60 hover:text-[#8a6206]"
+                >
+                  <IconDownload className="h-3.5 w-3.5" /> скачать
+                </a>
+              </li>
             ))}
-            <div className="mt-auto hidden px-3 py-2 text-[10.5px] leading-relaxed text-ink-400 lg:block">
-              Промпт.txt встроен константой; файл рядом с app.py подхватывается автоматически,
-              скрытая кнопка «· · ·» в сайдбаре — замена для сессии.
-            </div>
-          </div>
-
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-3 border-b border-paper-50/10 bg-ink-950/60 px-4 py-2">
-              <span className="truncate font-mono text-[11px] text-ink-300">
-                $ pip install -r requirements.txt && streamlit run app.py
-              </span>
-              <button
-                onClick={copy}
-                className={`inline-flex shrink-0 items-center gap-1.5 border px-2.5 py-1 font-mono text-[10.5px] font-semibold uppercase tracking-wider transition-colors ${
-                  copied
-                    ? "border-moss-500 text-moss-500"
-                    : "border-paper-50/20 text-ink-200 hover:border-brass-500 hover:text-brass-400"
-                }`}
-              >
-                {copied ? <IconCheck className="h-3.5 w-3.5" /> : <IconCopy className="h-3.5 w-3.5" />}
-                {copied ? "Готово" : "Копировать"}
-              </button>
-            </div>
-            <pre className="code-panel slim-scroll max-h-[430px] overflow-auto whitespace-pre p-4 text-ink-200">
-              {f.text}
-            </pre>
+          </ul>
+          <div className="border-t border-ink-900/10 bg-paper-100 px-4 py-2 font-mono text-[10px] text-ink-400">
+            $ pip install -r requirements.txt && streamlit run app.py
           </div>
         </div>
-      </div>
-    </Reveal>
+      )}
+    </div>
   );
 }

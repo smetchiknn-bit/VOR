@@ -29,7 +29,7 @@ const PIPELINE: Array<{ n: string; title: string; text: string }> = [
   {
     n: "06",
     title: "№ п/п и запись ВОР.xlsx",
-    text: "Нумерация систем '001, '002…; листы «ВОР» (11 колонок), «Статистика», «Не найдено», «Промпт».",
+    text: "Нумерация систем '001, '002…; листы «ВОР» (11 колонок), «Статистика», «Не найдено».",
   },
 ];
 
@@ -258,14 +258,13 @@ export function FormatCard() {
       <div className="flex flex-col gap-4 border border-ink-900/12 bg-white/70 p-6 backdrop-blur-[2px] md:flex-row md:items-start md:gap-10">
         <div className="md:w-72 md:shrink-0">
           <h3 className="font-display text-[15px] font-bold uppercase tracking-wide text-ink-900">
-            ВОР.xlsx · 4 листа
+            ВОР.xlsx · 3 листа
           </h3>
           <ul className="mt-3 space-y-2">
             {[
               ["ВОР", "итоговая таблица · 11 колонок"],
               ["Статистика", "сводка и распределение по ТА"],
               ["Не найдено", "позиции без КЕР/ТМЦ с причиной"],
-              ["Промпт", "текст активного Промпт.txt"],
             ].map(([a, b]) => (
               <li key={a} className="flex items-baseline gap-3">
                 <span className="inline-block border border-ink-900/70 bg-paper-50 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-800">

@@ -91,11 +91,6 @@ function notFoundSheetRows(res: VorResult) {
   }));
 }
 
-function promptSheetRows(prompt: PromptState) {
-  const lines = prompt.text.split("\n");
-  return lines.map((line, i) => ({ "№": i + 1, "Текст Промпт.txt": line }));
-}
-
 // ---------- сборка книги ----------
 
 function makeWorkbook(res: VorResult, prompt: PromptState) {
@@ -112,9 +107,6 @@ function makeWorkbook(res: VorResult, prompt: PromptState) {
   const wsNf = XLSX.utils.json_to_sheet(notFoundSheetRows(res));
   wsNf["!cols"] = [{ wch: 12 }, { wch: 10 }, { wch: 60 }, { wch: 8 }, { wch: 14 }, { wch: 44 }];
   XLSX.utils.book_append_sheet(wb, wsNf, "Не найдено");
-  const wsPr = XLSX.utils.json_to_sheet(promptSheetRows(prompt));
-  wsPr["!cols"] = [{ wch: 6 }, { wch: 110 }];
-  XLSX.utils.book_append_sheet(wb, wsPr, "Промпт");
   return wb;
 }
 
