@@ -1,3 +1,7 @@
+--- src/components/reference.tsx (原始)
+
+
++++ src/components/reference.tsx (修改后)
 import { Reveal } from "./ui";
 
 const PIPELINE: Array<{ n: string; title: string; text: string }> = [
@@ -15,6 +19,7 @@ const PIPELINE: Array<{ n: string; title: string; text: string }> = [
     n: "03",
     title: "Подбор Код КЕР",
     text: "19 правил по ключевым словам: воздуховоды, клапаны, огнезащита, вентиляторы; фасонные изделия — без отдельной расценки.",
+    text: "19 правил по ключевым словам: воздуховоды, клапаны, огнезащита, вентиляторы, фасонные изделия — без отдельной расценки.",
   },
   {
     n: "04",
@@ -66,6 +71,7 @@ export function Pipeline() {
             6 переходов · без промежуточных складов
           </span>
         </div>
+
         <ol className="grid gap-x-10 gap-y-5 md:grid-cols-2">
           {PIPELINE.map((s, i) => (
             <li key={s.n} className="group flex gap-4">
@@ -231,6 +237,7 @@ export function TmcAlgo() {
           <p className="mt-5 border-t border-ink-100/10 pt-4 text-[11.5px] leading-relaxed text-ink-300">
             Итог: кандидат с максимальным баллом. Строка-заголовок (без «Кол-ва») кодов не
             получает — в колонке ТА фиксируется «Строка-заголовок (уровень 1/2)», иерархия
+            получает — в колонке ТА фиксируется «{`Строка-заголовок (уровень 1/2)`}», иерархия
             спецификации сохраняется.
           </p>
         </div>
@@ -257,6 +264,7 @@ export function FormatCard() {
     <Reveal delay={160}>
       <div className="flex flex-col gap-4 border border-ink-900/12 bg-white/70 p-6 backdrop-blur-[2px] md:flex-row md:items-start md:gap-10">
         <div className="md:w-72 md:shrink-0">
+        <div className="md:w-64 md:shrink-0">
           <h3 className="font-display text-[15px] font-bold uppercase tracking-wide text-ink-900">
             ВОР.xlsx · 3 листа
           </h3>

@@ -1,3 +1,7 @@
+--- src/index.css (原始)
+
+
++++ src/index.css (修改后)
 @import "tailwindcss";
 
 @theme {
@@ -53,6 +57,7 @@ body {
 }
 
 /* ---- миллиметровка основного поля ---- */
+/* ---- millimeter graph-paper background for the main area ---- */
 .blueprint-paper {
   background-color: var(--color-paper-100);
   background-image:
@@ -64,6 +69,7 @@ body {
 }
 
 /* ---- штриховка тёмного сайдбара ---- */
+/* ---- dark sidebar hatching ---- */
 .ink-hatch {
   background-color: var(--color-ink-900);
   background-image: repeating-linear-gradient(
@@ -88,6 +94,7 @@ body {
 }
 
 /* ---- штамп ---- */
+/* ---- stamp animation ---- */
 @keyframes stamp-in {
   0% {
     opacity: 0;
@@ -107,6 +114,7 @@ body {
 }
 
 /* ---- LED ---- */
+/* ---- LED pulse ---- */
 @keyframes led-pulse {
   0%,
   100% {
@@ -123,6 +131,7 @@ body {
 }
 
 /* ---- бегущий пунктир ---- */
+/* ---- marching dashes for the pipeline connector ---- */
 @keyframes dash-flow {
   to {
     stroke-dashoffset: -20;
@@ -133,6 +142,7 @@ body {
 }
 
 /* ---- появление строк ---- */
+/* ---- row entry ---- */
 @keyframes row-in {
   from {
     opacity: 0;
@@ -148,6 +158,7 @@ body {
 }
 
 /* ---- полосы прогресса ---- */
+/* ---- progress stripes ---- */
 @keyframes stripes-move {
   to {
     background-position: 24px 0;
@@ -168,6 +179,7 @@ body {
 }
 
 /* ---- панель кода ---- */
+/* ---- code panel ---- */
 .code-panel {
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -176,6 +188,7 @@ body {
 }
 
 /* тонкие скроллбары */
+/* thin scrollbars */
 .slim-scroll::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -194,6 +207,7 @@ body {
 }
 
 /* dropzone */
+/* dropzone states */
 .dropzone {
   transition: border-color 0.25s ease, background-color 0.25s ease,
     transform 0.25s ease, box-shadow 0.25s ease;

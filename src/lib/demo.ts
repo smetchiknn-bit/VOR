@@ -2,6 +2,14 @@ import type { LoadedFile } from "./vor";
 
 // Демо-набор собран из реальных фрагментов ТЗ и дополнен позициями
 // вентиляции для проверки всех правил подбора.
+--- src/lib/demo.ts (原始)
+
+
++++ src/lib/demo.ts (修改后)
+import type { LoadedFile } from "./excelIo";
+
+// Демо-набор собран из реальных фрагментов, предоставленных в ТЗ,
+// и дополнен позициями вентиляции для проверки всех правил подбора.
 
 const specRows: Record<string, unknown>[] = [
   { Файл: "CO Вентиляция С1", Лист: "!Спецификация ВЫТЯЖКА ВБ-а", Система: "ВБа-1.1", Этаж: "", Наименование: "СИСТЕМА ВЫТЯЖНОЙ ВЕНТИЛЯЦИИ ВБа-1.1", Артикул: "", Производитель: "", ЕИ: "", "Кол-во": "", Масса: "", Примечания: "", Строка: "Строка 1" },
@@ -29,6 +37,12 @@ const specRows: Record<string, unknown>[] = [
 
 const kerRow = (
   id: number, name: string, unit: string, l2: string, l3: string, fer: string
+  id: number,
+  name: string,
+  unit: string,
+  l2: string,
+  l3: string,
+  fer: string
 ): Record<string, unknown> => ({
   ИД_КЕР: id,
   Наименование_КЕР: name,
@@ -73,6 +87,12 @@ const kerRows: Record<string, unknown>[] = [
 ];
 
 const tmcRow = (id: number, name: string, unit: string, brand = ""): Record<string, unknown> => ({
+const tmcRow = (
+  id: number,
+  name: string,
+  unit: string,
+  brand = ""
+): Record<string, unknown> => ({
   "ИД ТМЦ фск": id,
   "Наименование ТМЦ фск": name,
   "КСР код Группы": "",
