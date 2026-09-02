@@ -18,6 +18,7 @@ const PIPELINE: Array<{ n: string; title: string; text: string }> = [
   {
     n: "03",
     title: "Подбор Код КЕР",
+    text: "19 правил по ключевым словам: воздуховоды, клапаны, огнезащита, вентиляторы; фасонные изделия — без отдельной расценки.",
     text: "19 правил по ключевым словам: воздуховоды, клапаны, огнезащита, вентиляторы, фасонные изделия — без отдельной расценки.",
   },
   {
@@ -235,6 +236,7 @@ export function TmcAlgo() {
           </ul>
           <p className="mt-5 border-t border-ink-100/10 pt-4 text-[11.5px] leading-relaxed text-ink-300">
             Итог: кандидат с максимальным баллом. Строка-заголовок (без «Кол-ва») кодов не
+            получает — в колонке ТА фиксируется «Строка-заголовок (уровень 1/2)», иерархия
             получает — в колонке ТА фиксируется «{`Строка-заголовок (уровень 1/2)`}», иерархия
             спецификации сохраняется.
           </p>
@@ -261,6 +263,7 @@ export function FormatCard() {
   return (
     <Reveal delay={160}>
       <div className="flex flex-col gap-4 border border-ink-900/12 bg-white/70 p-6 backdrop-blur-[2px] md:flex-row md:items-start md:gap-10">
+        <div className="md:w-72 md:shrink-0">
         <div className="md:w-64 md:shrink-0">
           <h3 className="font-display text-[15px] font-bold uppercase tracking-wide text-ink-900">
             ВОР.xlsx · 3 листа

@@ -1,3 +1,7 @@
+import type { LoadedFile } from "./vor";
+
+// Демо-набор собран из реальных фрагментов ТЗ и дополнен позициями
+// вентиляции для проверки всех правил подбора.
 --- src/lib/demo.ts (原始)
 
 
@@ -32,6 +36,7 @@ const specRows: Record<string, unknown>[] = [
 ];
 
 const kerRow = (
+  id: number, name: string, unit: string, l2: string, l3: string, fer: string
   id: number,
   name: string,
   unit: string,
@@ -81,6 +86,7 @@ const kerRows: Record<string, unknown>[] = [
   kerRow(5610, "Установка светильников светодиодных потолочных", "шт", "2.5", "2.5.2", "ФЕР08-03-021-01"),
 ];
 
+const tmcRow = (id: number, name: string, unit: string, brand = ""): Record<string, unknown> => ({
 const tmcRow = (
   id: number,
   name: string,

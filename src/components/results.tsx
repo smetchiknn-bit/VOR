@@ -1,3 +1,9 @@
+import { useState } from "react";
+import type { VorResult } from "../lib/vor";
+import { CountUp, IconAlert, IconDownload, IconCheck, Reveal, TaChip } from "./ui";
+
+const fmtQty = (v: number | null) =>
+  v === null ? "—" : v.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
 --- src/components/results.tsx (原始)
 
 
@@ -123,6 +129,18 @@ function KerFrequency({ res }: { res: VorResult }) {
     </div>
   );
 }
+
+export function Results({
+  res,
+  xlsxUrl,
+  csvUrl,
+}: {
+  res: VorResult;
+  xlsxUrl: string | null;
+  csvUrl: string | null;
+}) {
+  const [tab, setTab] = useState<"vor" | "nf">("vor");
+  const [limit, setLimit] = useState(120);
 
 export function Results({ res }: { res: VorResult }) {
   const [tab, setTab] = useState<"vor" | "nf">("vor");
@@ -356,12 +374,14 @@ export function Results({ res }: { res: VorResult }) {
           </div>
           <div className="border-t border-ink-900/10 px-4 py-2 font-mono text-[10.5px] uppercase tracking-wider text-ink-400">
             {tab === "vor"
+              ? `показано ${Math.min(limit, res.rows.length)} из ${res.rows.length.toLocaleString("ru-RU")} строк`
               ? `показано ${Math.min(limit, res.rows.length)} из ${res.rows.length} строк`
               : `записей: ${res.notFound.length}`}
           </div>
         </div>
       </Reveal>
 
+      {/* скачивание: прямые ссылки <a download> */}
       {/* скачивание */}
       <Reveal delay={160}>
         <div className="flex flex-wrap items-center gap-3 border border-ink-900/12 bg-ink-900 px-5 py-4">
@@ -372,6 +392,36 @@ export function Results({ res }: { res: VorResult }) {
               ВОР · Статистика · Не найдено
             </div>
           </div>
+          {xlsxUrl && (
+            <a
+              href={xlsxUrl}
+              download="ВОР.xlsx"
+              className="group inline-flex items-center gap-2 bg-brass-500 px-5 py-2.5 font-display text-[12px] font-bold uppercase tracking-[0.1em] text-ink-950 transition-all hover:-translate-y-0.5 hover:bg-brass-400 hover:shadow-[0_6px_18px_rgba(240,168,28,0.35)] active:translate-y-0"
+            >
+              <IconDownload className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              Скачать ВОР.xlsx
+            </a>
+          )}
+          {csvUrl && (
+            <a
+              href={csvUrl}
+              download="ВОР_с_ТА.csv"
+              className="inline-flex items-center gap-2 border border-ink-300/40 px-4 py-2.5 font-mono text-[11.5px] font-semibold uppercase tracking-wider text-ink-200 transition-colors hover:border-brass-500 hover:text-brass-400"
+            >
+              ВОР_с_ТА.csv
+            </a>
+          )}
+          {xlsxUrl && (
+            <a
+              href={xlsxUrl}
+              target="_blank"
+              rel="noopener"
+              className="font-mono text-[10.5px] uppercase tracking-wider text-ink-300 underline decoration-ink-600 underline-offset-4 transition-colors hover:text-brass-400"
+              title="Если скачивание блокируется окном предпросмотра — файл откроется в новой вкладке, сохраните его вручную"
+            >
+              не скачивается? открыть
+            </a>
+          )}
           <button
             onClick={() => downloadWorkbook(wb, "ВОР.xlsx")}
             className="group inline-flex items-center gap-2 bg-brass-500 px-5 py-2.5 font-display text-[12px] font-bold uppercase tracking-[0.1em] text-ink-950 transition-all hover:-translate-y-0.5 hover:bg-brass-400 hover:shadow-[0_6px_18px_rgba(240,168,28,0.35)] active:translate-y-0"

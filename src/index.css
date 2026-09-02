@@ -56,6 +56,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ---- миллиметровка основного поля ---- */
 /* ---- millimeter graph-paper background for the main area ---- */
 .blueprint-paper {
   background-color: var(--color-paper-100);
@@ -67,6 +68,7 @@ body {
   background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
 }
 
+/* ---- штриховка тёмного сайдбара ---- */
 /* ---- dark sidebar hatching ---- */
 .ink-hatch {
   background-color: var(--color-ink-900);
@@ -91,6 +93,7 @@ body {
   transform: translateY(0);
 }
 
+/* ---- штамп ---- */
 /* ---- stamp animation ---- */
 @keyframes stamp-in {
   0% {
@@ -110,6 +113,7 @@ body {
   animation: stamp-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* ---- LED ---- */
 /* ---- LED pulse ---- */
 @keyframes led-pulse {
   0%,
@@ -126,6 +130,7 @@ body {
   animation: led-pulse 1.6s ease-in-out infinite;
 }
 
+/* ---- бегущий пунктир ---- */
 /* ---- marching dashes for the pipeline connector ---- */
 @keyframes dash-flow {
   to {
@@ -136,6 +141,7 @@ body {
   animation: dash-flow 1.2s linear infinite;
 }
 
+/* ---- появление строк ---- */
 /* ---- row entry ---- */
 @keyframes row-in {
   from {
@@ -151,6 +157,7 @@ body {
   animation: row-in 0.4s ease both;
 }
 
+/* ---- полосы прогресса ---- */
 /* ---- progress stripes ---- */
 @keyframes stripes-move {
   to {
@@ -171,6 +178,7 @@ body {
   animation: stripes-move 0.8s linear infinite;
 }
 
+/* ---- панель кода ---- */
 /* ---- code panel ---- */
 .code-panel {
   font-family: var(--font-mono);
@@ -179,6 +187,7 @@ body {
   tab-size: 4;
 }
 
+/* тонкие скроллбары */
 /* thin scrollbars */
 .slim-scroll::-webkit-scrollbar {
   width: 8px;
@@ -197,6 +206,7 @@ body {
   border-radius: 4px;
 }
 
+/* dropzone */
 /* dropzone states */
 .dropzone {
   transition: border-color 0.25s ease, background-color 0.25s ease,
