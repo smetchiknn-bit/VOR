@@ -4,6 +4,24 @@ import { CountUp, IconAlert, IconDownload, IconCheck, Reveal, TaChip } from "./u
 
 const fmtQty = (v: number | null) =>
   v === null ? "—" : v.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
+--- src/components/results.tsx (原始)
+
+
++++ src/components/results.tsx (修改后)
+import { useMemo, useState } from "react";
+import type { VorResult } from "../lib/vor";
+import {
+  buildVorWorkbook,
+  buildVorCsv,
+  downloadWorkbook,
+  downloadText,
+} from "../lib/excelIo";
+import { CountUp, IconAlert, IconDownload, Reveal, TaChip, IconCheck } from "./ui";
+
+const fmtQty = (v: number | null) =>
+  v === null
+    ? "—"
+    : v.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
 
 function StatCard({
   label,
@@ -124,11 +142,17 @@ export function Results({
   const [tab, setTab] = useState<"vor" | "nf">("vor");
   const [limit, setLimit] = useState(120);
 
+export function Results({ res }: { res: VorResult }) {
+  const [tab, setTab] = useState<"vor" | "nf">("vor");
+  const [limit, setLimit] = useState(120);
+
+  const wb = useMemo(() => buildVorWorkbook(res), [res]);
   const preview = res.rows.slice(0, limit);
   const s = res.stats;
 
   return (
     <section id="result" className="space-y-4">
+      {/* штамп + заголовок результата */}
       <Reveal>
         <div className="relative overflow-hidden border-2 border-ink-900 bg-ink-900 px-6 py-5 text-paper-50">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -174,6 +198,7 @@ export function Results({
         </Reveal>
       )}
 
+      {/* статистика */}
       <Reveal delay={60}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           <StatCard label="Позиций в спецификации" value={s.specTotal} tone="ink" sub={`+ ${s.headerCount} заголовков`} />
@@ -196,6 +221,7 @@ export function Results({
         </div>
       </Reveal>
 
+      {/* предпросмотр */}
       <Reveal delay={120}>
         <div className="border border-ink-900/12 bg-white/85">
           <div className="flex flex-wrap items-center gap-2 border-b-2 border-ink-900 px-4 py-2.5">
@@ -349,12 +375,14 @@ export function Results({
           <div className="border-t border-ink-900/10 px-4 py-2 font-mono text-[10.5px] uppercase tracking-wider text-ink-400">
             {tab === "vor"
               ? `показано ${Math.min(limit, res.rows.length)} из ${res.rows.length.toLocaleString("ru-RU")} строк`
+              ? `показано ${Math.min(limit, res.rows.length)} из ${res.rows.length} строк`
               : `записей: ${res.notFound.length}`}
           </div>
         </div>
       </Reveal>
 
       {/* скачивание: прямые ссылки <a download> */}
+      {/* скачивание */}
       <Reveal delay={160}>
         <div className="flex flex-wrap items-center gap-3 border border-ink-900/12 bg-ink-900 px-5 py-4">
           <IconDownload className="h-5 w-5 text-brass-500" />
@@ -394,6 +422,21 @@ export function Results({
               не скачивается? открыть
             </a>
           )}
+          <button
+            onClick={() => downloadWorkbook(wb, "ВОР.xlsx")}
+            className="group inline-flex items-center gap-2 bg-brass-500 px-5 py-2.5 font-display text-[12px] font-bold uppercase tracking-[0.1em] text-ink-950 transition-all hover:-translate-y-0.5 hover:bg-brass-400 hover:shadow-[0_6px_18px_rgba(240,168,28,0.35)] active:translate-y-0"
+          >
+            <IconDownload className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+            Скачать ВОР.xlsx
+          </button>
+          <button
+            onClick={() =>
+              downloadText(buildVorCsv(res), "ВОР_с_ТА.csv", "text/csv;charset=utf-8")
+            }
+            className="inline-flex items-center gap-2 border border-ink-300/40 px-4 py-2.5 font-mono text-[11.5px] font-semibold uppercase tracking-wider text-ink-200 transition-colors hover:border-brass-500 hover:text-brass-400"
+          >
+            ВОР_с_ТА.csv
+          </button>
         </div>
       </Reveal>
     </section>

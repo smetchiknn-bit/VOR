@@ -1,3 +1,7 @@
+--- tsconfig.json (原始)
+
+
++++ tsconfig.json (修改后)
 {
   "compilerOptions": {
     "target": "ES2020",
