@@ -350,7 +350,7 @@ function AppInner() {
         onProgress: (p, label) => setProgress({ p, label }),
       });
       setProgress({ p: 1, label: "Формирование файлов…" });
-      const xlsxUrl = URL.createObjectURL(vorBlob(res, prompt));
+      const xlsxUrl = URL.createObjectURL(await vorBlob(res, prompt));
       const csvUrl = URL.createObjectURL(csvBlob(res));
       setDownloads((old) => {
         if (old) {

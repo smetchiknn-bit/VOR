@@ -1,4 +1,5 @@
 import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { normKey, type LoadedFile, type Row, type VorResult } from "./vor";
 import type { PromptState } from "./prompt";
 
@@ -77,24 +78,79 @@ function notFoundSheetRows(res: VorResult) {
   }));
 }
 
-function makeWorkbook(res: VorResult, prompt: PromptState) {
-  const wb = XLSX.utils.book_new();
-  const wsVor = XLSX.utils.json_to_sheet(vorSheetRows(res));
-  wsVor["!cols"] = [{ wch: 7 }, { wch: 12 }, { wch: 10 }, { wch: 8 }, { wch: 64 }, { wch: 7 }, { wch: 10 }, { wch: 9 }, { wch: 9 }, { wch: 12 }, { wch: 18 }];
-  XLSX.utils.book_append_sheet(wb, wsVor, "ВОР");
-  const wsStat = XLSX.utils.json_to_sheet(statSheetRows(res, prompt));
-  wsStat["!cols"] = [{ wch: 44 }, { wch: 28 }];
-  XLSX.utils.book_append_sheet(wb, wsStat, "Статистика");
-  const wsNf = XLSX.utils.json_to_sheet(notFoundSheetRows(res));
-  wsNf["!cols"] = [{ wch: 12 }, { wch: 10 }, { wch: 60 }, { wch: 8 }, { wch: 14 }, { wch: 44 }];
-  XLSX.utils.book_append_sheet(wb, wsNf, "Не найдено");
-  return wb;
+async function makeWorkbook(res: VorResult, prompt: PromptState): Promise<Blob> {
+  const workbook = new ExcelJS.Workbook();
+  
+  // Лист "ВОР"
+  const wsVor = workbook.addWorksheet("ВОР");
+  const vorData = vorSheetRows(res);
+  
+  // Добавляем заголовки
+  const headers = Object.keys(vorData[0]);
+  wsVor.addRow(headers);
+  
+  // Добавляем данные и применяем форматирование
+  vorData.forEach((row) => {
+    const excelRow = wsVor.addRow(Object.values(row));
+    
+    // Применяем форматирование для строк с ТА="Спецификация"
+    if (row["ТА"] === "Спецификация") {
+      excelRow.eachCell((cell) => {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "FFD9D9D9" }
+        };
+        cell.font = { bold: true };
+      });
+    }
+  });
+  
+  // Устанавливаем ширину колонок
+  wsVor.columns = [
+    { width: 7 },   // № п/п
+    { width: 12 },  // Система
+    { width: 10 },  // Строка
+    { width: 8 },   // Этаж
+    { width: 64 },  // Наименование
+    { width: 7 },   // ЕИ
+    { width: 10 },  // Кол-во
+    { width: 9 },   // Код КЕР
+    { width: 9 },   // Код ТМЦ
+    { width: 12 },  // Расход ТМЦ
+    { width: 18 }   // ТА
+  ];
+  
+  // Лист "Статистика"
+  const wsStat = workbook.addWorksheet("Статистика");
+  const statData = statSheetRows(res, prompt);
+  statData.forEach((row) => {
+    wsStat.addRow(Object.values(row));
+  });
+  wsStat.columns = [{ width: 44 }, { width: 28 }];
+  
+  // Лист "Не найдено"
+  const wsNf = workbook.addWorksheet("Не найдено");
+  const nfData = notFoundSheetRows(res);
+  nfData.forEach((row) => {
+    wsNf.addRow(Object.values(row));
+  });
+  wsNf.columns = [
+    { width: 12 },  // Система
+    { width: 10 },  // Строка
+    { width: 60 },  // Наименование
+    { width: 8 },   // Кол-во
+    { width: 14 },  // Что не найдено
+    { width: 44 }   // Причина
+  ];
+  
+  // Генерируем буфер
+  const buffer = await workbook.xlsx.writeBuffer();
+  return new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 }
 
-export function vorBlob(res: VorResult, prompt: PromptState): Blob {
-  const wb = makeWorkbook(res, prompt);
-  const data = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  return new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+export async function vorBlob(res: VorResult, prompt: PromptState): Promise<Blob> {
+  return await makeWorkbook(res, prompt);
 }
 
 export function csvBlob(res: VorResult): Blob {
