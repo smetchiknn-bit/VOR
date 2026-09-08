@@ -1,100 +1,125 @@
---- src/components/ui.tsx (原始)
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
+export function IconAlert({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  );
+}
 
-+++ src/components/ui.tsx (修改后)
-import { useEffect, useRef, useState } from "react";
-import type { ReactNode, DragEvent } from "react";
-import type { LoadedFile } from "../lib/excelIo";
-import { parseUpload } from "../lib/excelIo";
-import type { TaKind } from "../lib/vor";
+export function IconCheck({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
 
-// ---------- inline SVG icons ----------
+export function IconCompass({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </svg>
+  );
+}
 
-type IconProps = { className?: string };
+export function IconStamp({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 21h14" />
+      <path d="M5 18h14v3H5z" />
+      <path d="M9 18V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v9" />
+      <path d="M7 7h10" />
+    </svg>
+  );
+}
 
-export const IconSheet = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
-    <path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" />
-    <path d="M14 3v5h5M8 13h8M8 17h8M8 13v4M12 13v4M16 13v4" />
-  </svg>
-);
+export function IconGear({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </svg>
+  );
+}
 
-export const IconCheck = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" className={className}>
-    <path d="M4 12.5 9.5 18 20 6.5" />
-  </svg>
-);
+export function IconClose({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
 
-export const IconAlert = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
-    <path d="M12 3 2.5 20h19zM12 9.5V14M12 16.8v.4" />
-  </svg>
-);
+export function IconFile({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  );
+}
 
-export const IconDownload = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={className}>
-    <path d="M12 3v11m0 0 4.5-4.5M12 14 7.5 9.5M4 17v3h16v-3" />
-  </svg>
-);
+export function IconDownload({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
 
-export const IconGear = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className={className}>
-    <circle cx="12" cy="12" r="3.2" />
-    <path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.5 5.5l1.8 1.8M16.7 16.7l1.8 1.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8" />
-  </svg>
-);
+export function IconCopy({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
 
-export const IconTerminal = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={className}>
-    <rect x="3" y="4" width="18" height="16" rx="1.5" />
-    <path d="m7 9 3 3-3 3M12.5 15.5H17" />
-  </svg>
-);
+export function IconTerminal({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  );
+}
 
-export const IconCompass = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className={className}>
-    <circle cx="12" cy="12" r="9" />
-    <path d="m15.5 8.5-2 5-5 2 2-5z" />
-  </svg>
-);
+export function SectionTitle({ kicker, title, children }: { kicker: string; title: string; children?: ReactNode }) {
+  return (
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink-900 pb-3">
+      <div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-blueprint-600">{kicker}</div>
+        <h2 className="mt-1 font-display text-2xl font-bold uppercase tracking-wide text-ink-900 sm:text-3xl">{title}</h2>
+      </div>
+      {children}
+    </div>
+  );
+}
 
-export const IconPython = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M11.9 2c-2.4 0-3.9 1-3.9 2.9v2h4v.9H5.6C3.6 7.8 2 9.5 2 12s1.6 4.2 3.6 4.2h2.1v-2.4c0-1.9 1.5-3.3 3.4-3.3h4.5c1.6 0 2.9-1.3 2.9-2.9V5c0-1.9-1.5-3-3.6-3h-3zM9.4 4.1c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zM20.3 7.8h-2.1v2.4c0 1.9-1.5 3.3-3.4 3.3h-4.5c-1.6 0-2.9 1.3-2.9 2.9V19c0 1.9 1.5 3 3.6 3h3c2.4 0 3.9-1 3.9-2.9v-2h-4v-.9h6.4c2 0 3.6-1.7 3.6-4.2s-1.6-4.2-3.6-4.2zm-5.7 11.2c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z" />
-  </svg>
-);
-
-export const IconStamp = ({ className = "w-4 h-4" }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" className={className}>
-    <path d="M9 10.5c.8-1.2 1-3.3 1-5a2 2 0 1 1 4 0c0 1.7.2 3.8 1 5h1.5A2.5 2.5 0 0 1 19 13v1H5v-1a2.5 2.5 0 0 1 2.5-2.5zM5 18h14M6 14v4M18 14v4" />
-  </svg>
-);
-
-// ---------- scroll reveal ----------
-
-export function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-}) {
+export function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setInView(true);
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
           obs.disconnect();
         }
       },
-      { threshold: 0.08 }
+      { threshold: 0.1 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -103,126 +128,85 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`reveal ${inView ? "is-in" : ""} ${className}`}
-      style={{ ["--reveal-delay" as string]: `${delay}ms` }}
+      className={`reveal ${visible ? "is-in" : ""}`}
+      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
     >
       {children}
     </div>
   );
 }
 
-// ---------- animated counter ----------
+export function TaChip({ ta }: { ta: string }) {
+  const styles: Record<string, string> = {
+    Спецификация: "border-blueprint-600/40 bg-blueprint-50 text-blueprint-700",
+    КЕР: "border-brass-500/50 bg-brass-100 text-[#8a6206]",
+    ТМЦ: "border-moss-500/50 bg-moss-100 text-moss-600",
+    Заголовок: "border-ink-400/40 bg-paper-200 text-ink-400",
+  };
+  return (
+    <span className={`inline-block border px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider ${styles[ta] || styles["Спецификация"]}`}>
+      {ta}
+    </span>
+  );
+}
 
 export function CountUp({ value }: { value: number }) {
   const [display, setDisplay] = useState(0);
   useEffect(() => {
+    if (value === 0) {
+      setDisplay(0);
+      return;
+    }
+    const duration = 600;
+    const start = performance.now();
+    const from = 0;
+    const to = value;
     let raf = 0;
-    const t0 = performance.now();
-    const dur = 950;
-    const tick = (t: number) => {
-      const k = Math.min(1, (t - t0) / dur);
-      setDisplay(Math.round(value * (1 - Math.pow(1 - k, 3))));
-      if (k < 1) raf = requestAnimationFrame(tick);
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(from + (to - from) * eased));
+      if (t < 1) raf = requestAnimationFrame(step);
     };
-    raf = requestAnimationFrame(tick);
+    raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, [value]);
   return <>{display.toLocaleString("ru-RU")}</>;
 }
 
-// ---------- ТА chip ----------
-
-export const TA_STYLE: Record<TaKind, { chip: string; dot: string; label: string }> = {
-  Спецификация: {
-    chip: "bg-blueprint-50 text-blueprint-700 border-blueprint-500/30",
-    dot: "bg-blueprint-600",
-    label: "Спецификация",
-  },
-  КЕР: { chip: "bg-brass-100 text-[#7a5606] border-brass-500/40", dot: "bg-brass-500", label: "КЕР" },
-  ТМЦ: { chip: "bg-moss-100 text-moss-600 border-moss-500/30", dot: "bg-moss-500", label: "ТМЦ" },
-  Заголовок: { chip: "bg-paper-200 text-ink-400 border-ink-300/60", dot: "bg-ink-400", label: "Заголовок" },
-};
-
-export function TaChip({ ta }: { ta: TaKind }) {
-  const s = TA_STYLE[ta];
-  return (
-    <span
-      className={`inline-flex items-center gap-1.5 border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${s.chip}`}
-    >
-      <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
-      {s.label}
-    </span>
-  );
-}
-
-// ---------- file dropzone ----------
-
 export function FileDrop({
-  label,
+  title,
   hint,
-  preferSheets,
-  file,
+  loaded,
   error,
-  onLoaded,
-  onError,
+  onFile,
 }: {
-  label: string;
+  title: string;
   hint: string;
-  preferSheets: string[];
-  file: LoadedFile | null;
+  loaded: { name: string; rows: number; sheet: string } | null;
   error: string | null;
-  onLoaded: (f: LoadedFile) => void;
-  onError: (e: string | null) => void;
+  onFile: (f: File) => void;
 }) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
-  const [busy, setBusy] = useState(false);
-
-  const handle = async (f: File | undefined) => {
-    if (!f) return;
-    setBusy(true);
-    onError(null);
-    try {
-      const loaded = await parseUpload(f, preferSheets);
-      if (loaded.rows.length === 0) {
-        onError(`Файл прочитан, но лист «${loaded.sheet}» не содержит строк.`);
-      } else {
-        onLoaded(loaded);
-      }
-    } catch {
-      onError("Не удалось прочитать файл. Убедитесь, что это корректный .xlsx.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onDrop = (e: DragEvent) => {
-    e.preventDefault();
-    setDrag(false);
-    handle(e.dataTransfer.files?.[0]);
-  };
-
-  const ok = !!file;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div
-      role="button"
-      tabIndex={0}
-      onClick={() => inputRef.current?.click()}
-      onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
+      className={`dropzone relative border-2 ${
+        error ? "border-rust-500" : loaded ? "border-moss-500/60" : "border-paper-50/25"
+      } ${drag ? "drag" : ""} bg-ink-850/60 p-3.5`}
       onDragOver={(e) => {
         e.preventDefault();
         setDrag(true);
       }}
       onDragLeave={() => setDrag(false)}
-      onDrop={onDrop}
-      className={`dropzone group cursor-pointer border-2 border-dashed px-3 py-3 text-left ${drag ? "drag" : ""} ${
-        ok
-          ? "border-moss-500/60 bg-moss-500/[0.07]"
-          : error
-          ? "border-rust-500/60 bg-rust-500/[0.06]"
-          : "border-ink-600 bg-ink-850/70 hover:border-ink-400"
-      }`}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDrag(false);
+        const f = e.dataTransfer.files?.[0];
+        if (f) onFile(f);
+      }}
+      onClick={() => inputRef.current?.click()}
     >
       <input
         ref={inputRef}
@@ -230,75 +214,31 @@ export function FileDrop({
         accept=".xlsx,.xls"
         className="hidden"
         onChange={(e) => {
-          handle(e.target.files?.[0]);
+          const f = e.target.files?.[0];
+          if (f) onFile(f);
           e.target.value = "";
         }}
       />
-      <div className="flex items-start gap-2.5">
-        <span
-          className={`mt-0.5 shrink-0 ${ok ? "text-moss-500" : error ? "text-rust-500" : "text-brass-500"}`}
-        >
-          {busy ? (
-            <IconGear className="h-4.5 w-4.5 animate-spin" />
-          ) : ok ? (
-            <IconCheck className="h-4.5 w-4.5" />
-          ) : error ? (
-            <IconAlert className="h-4.5 w-4.5" />
-          ) : (
-            <IconSheet className="h-4.5 w-4.5" />
-          )}
-        </span>
-        <div className="min-w-0">
-          <div className="font-mono text-[12px] font-semibold tracking-wide text-ink-100">
-            {label}
-            <span className="ml-1.5 text-rust-500">*</span>
-          </div>
-          {ok ? (
-            <div className="mt-1 truncate text-[11px] text-moss-500">
-              {file.name} · лист «{file.sheet}» ·{" "}
-              <span className="font-mono">{file.rows.length.toLocaleString("ru-RU")}</span> строк
+      <div className="flex items-start gap-3">
+        <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center border ${loaded ? "border-moss-500/60 text-moss-500" : "border-paper-50/25 text-ink-300"}`}>
+          <IconFile className="h-4 w-4" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-paper-50">{title}</div>
+          {loaded ? (
+            <div className="mt-1 flex items-center gap-2">
+              <IconCheck className="h-3.5 w-3.5 text-moss-500" />
+              <span className="truncate font-mono text-[11px] text-ink-200">{loaded.name}</span>
+              <span className="ml-auto shrink-0 font-mono text-[10px] text-ink-400">
+                {loaded.rows.toLocaleString("ru-RU")} стр. · {loaded.sheet}
+              </span>
             </div>
-          ) : error ? (
-            <div className="mt-1 text-[11px] leading-snug text-rust-500">{error}</div>
           ) : (
-            <div className="mt-1 text-[11px] leading-snug text-ink-300 group-hover:text-ink-200">
-              {busy ? "Чтение файла…" : hint}
-            </div>
+            <div className="mt-1 text-[11px] leading-snug text-ink-400">{hint}</div>
           )}
+          {error && <div className="mt-1.5 text-[11px] leading-snug text-rust-500">{error}</div>}
         </div>
       </div>
-    </div>
-  );
-}
-
-// ---------- section heading ----------
-
-export function SectionTitle({
-  code,
-  title,
-  light = false,
-}: {
-  code: string;
-  title: string;
-  light?: boolean;
-}) {
-  return (
-    <div className="mb-4 flex items-baseline gap-3">
-      <span
-        className={`font-mono text-[11px] font-bold tracking-[0.2em] ${
-          light ? "text-blueprint-600" : "text-brass-500"
-        }`}
-      >
-        {code}
-      </span>
-      <h2
-        className={`font-display text-[15px] font-semibold uppercase tracking-[0.08em] ${
-          light ? "text-ink-900" : "text-ink-100"
-        }`}
-      >
-        {title}
-      </h2>
-      <div className={`h-px flex-1 ${light ? "bg-ink-900/15" : "bg-ink-100/10"}`} />
     </div>
   );
 }

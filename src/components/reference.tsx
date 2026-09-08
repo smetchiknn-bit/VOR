@@ -1,40 +1,12 @@
---- src/components/reference.tsx (原始)
-
-
-+++ src/components/reference.tsx (修改后)
 import { Reveal } from "./ui";
 
 const PIPELINE: Array<{ n: string; title: string; text: string }> = [
-  {
-    n: "01",
-    title: "Чтение исходных данных",
-    text: "Спецификация.xlsx, База КЕР.xlsx (лист «Выгрузка»), База ТМЦ.xlsx — колонки нормализуются автоматически.",
-  },
-  {
-    n: "02",
-    title: "Фильтрация базы КЕР",
-    text: "По кодам навигатора Л2 / Л3. Если фильтр пуст — берётся вся база с предупреждением.",
-  },
-  {
-    n: "03",
-    title: "Подбор Код КЕР",
-    text: "19 правил по ключевым словам: воздуховоды, клапаны, огнезащита, вентиляторы, фасонные изделия — без отдельной расценки.",
-  },
-  {
-    n: "04",
-    title: "Подбор Код ТМЦ",
-    text: "Ключ — первое слово наименования. Оценка по пересечению слов, +10 за артикул, −5 за чужую категорию.",
-  },
-  {
-    n: "05",
-    title: "Тройная детализация",
-    text: "На позицию — до 3 строк: «Спецификация» (оба кода) → «КЕР» (без Код ТМЦ) → «ТМЦ» (без Код КЕР).",
-  },
-  {
-    n: "06",
-    title: "№ п/п и запись ВОР.xlsx",
-    text: "Нумерация систем '001, '002…; листы «ВОР» (11 колонок), «Статистика», «Не найдено».",
-  },
+  { n: "01", title: "Чтение исходных данных", text: "Спецификация.xlsx, База КЕР.xlsx, База ТМЦ.xlsx — колонки нормализуются автоматически." },
+  { n: "02", title: "Фильтрация базы КЕР", text: "По кодам навигатора Л2 / Л3. Если фильтр пуст — берётся вся база с предупреждением." },
+  { n: "03", title: "Подбор Код КЕР", text: "19 правил по ключевым словам: воздуховоды, клапаны, огнезащита, вентиляторы; фасонные изделия — без отдельной расценки." },
+  { n: "04", title: "Подбор Код ТМЦ", text: "Ключ — первое слово наименования. Оценка по пересечению слов, +10 за артикул, −5 за чужую категорию." },
+  { n: "05", title: "Тройная детализация", text: "На позицию — до 3 строк: «Спецификация» (оба кода) → «КЕР» (без Код ТМЦ) → «ТМЦ» (без Код КЕР)." },
+  { n: "06", title: "№ п/п и запись ВОР.xlsx", text: "Нумерация систем '001, '002…; листы «ВОР» (11 колонок), «Статистика», «Не найдено»." },
 ];
 
 const RULES: Array<{ keys: string; id: string; note: string }> = [
@@ -70,7 +42,6 @@ export function Pipeline() {
             6 переходов · без промежуточных складов
           </span>
         </div>
-
         <ol className="grid gap-x-10 gap-y-5 md:grid-cols-2">
           {PIPELINE.map((s, i) => (
             <li key={s.n} className="group flex gap-4">
@@ -80,16 +51,7 @@ export function Pipeline() {
                 </span>
                 {i < PIPELINE.length - 1 && (
                   <svg className="mt-1 h-full min-h-6 w-2 text-ink-900/25" aria-hidden>
-                    <line
-                      x1="4"
-                      y1="0"
-                      x2="4"
-                      y2="100%"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeDasharray="3 5"
-                      className="dash-flow"
-                    />
+                    <line x1="4" y1="0" x2="4" y2="100%" stroke="currentColor" strokeWidth="2" strokeDasharray="3 5" className="dash-flow" />
                   </svg>
                 )}
               </div>
@@ -165,30 +127,10 @@ export function RulesReference() {
 
 export function TmcAlgo() {
   const steps = [
-    {
-      t: "Ключ поиска",
-      d: "Первое слово «Наименования» длиной ≥ 3 символов: «клапан», «воздуховод», «отвод»…",
-      v: "+0",
-      tone: "text-ink-400",
-    },
-    {
-      t: "Пересечение слов",
-      d: "Каждое общее слово (≥ 3 символов) в наименованиях спецификации и ТМЦ даёт балл.",
-      v: "+1 за слово",
-      tone: "text-moss-600",
-    },
-    {
-      t: "Совпадение артикула",
-      d: "Если «Артикул» спецификации найден в наименовании ТМЦ — приоритетный кандидат.",
-      v: "+10",
-      tone: "text-moss-600",
-    },
-    {
-      t: "Чужая категория",
-      d: "«труб» или «светильник» в ТМЦ при отсутствии в спецификации — явное несовпадение.",
-      v: "−5",
-      tone: "text-rust-600",
-    },
+    { t: "Ключ поиска", d: "Первое слово «Наименования» длиной ≥ 3 символов: «клапан», «воздуховод», «отвод»…", v: "+0", tone: "text-ink-400" },
+    { t: "Пересечение слов", d: "Каждое общее слово (≥ 3 символов) в наименованиях спецификации и ТМЦ даёт балл.", v: "+1 за слово", tone: "text-moss-600" },
+    { t: "Совпадение артикула", d: "Если «Артикул» спецификации найден в наименовании ТМЦ — приоритетный кандидат.", v: "+10", tone: "text-moss-600" },
+    { t: "Чужая категория", d: "«труб» или «светильник» в ТМЦ при отсутствии в спецификации — явное несовпадение.", v: "−5", tone: "text-rust-600" },
   ];
   const verdicts = [
     { r: "балл ≥ 5", s: "Точное совпадение ТМЦ", c: "border-moss-500 text-moss-600" },
@@ -205,10 +147,7 @@ export function TmcAlgo() {
           </h3>
           <ul className="mt-4 space-y-3">
             {steps.map((s) => (
-              <li
-                key={s.t}
-                className="group flex items-start justify-between gap-4 border-l-2 border-ink-900/10 pl-4 transition-colors hover:border-brass-500"
-              >
+              <li key={s.t} className="group flex items-start justify-between gap-4 border-l-2 border-ink-900/10 pl-4 transition-colors hover:border-brass-500">
                 <div>
                   <div className="text-[13px] font-bold text-ink-800">{s.t}</div>
                   <div className="mt-0.5 text-[12px] leading-relaxed text-ink-400">{s.d}</div>
@@ -224,19 +163,14 @@ export function TmcAlgo() {
           </h3>
           <ul className="mt-4 space-y-2.5">
             {verdicts.map((v) => (
-              <li
-                key={v.r}
-                className={`border-l-2 pl-3 transition-transform duration-200 hover:translate-x-1 ${v.c}`}
-              >
+              <li key={v.r} className={`border-l-2 pl-3 transition-transform duration-200 hover:translate-x-1 ${v.c}`}>
                 <span className="font-mono text-[11.5px] font-bold uppercase tracking-wider">{v.r}</span>
                 <div className="text-[12.5px] text-ink-200">{v.s}</div>
               </li>
             ))}
           </ul>
           <p className="mt-5 border-t border-ink-100/10 pt-4 text-[11.5px] leading-relaxed text-ink-300">
-            Итог: кандидат с максимальным баллом. Строка-заголовок (без «Кол-ва») кодов не
-            получает — в колонке ТА фиксируется «{`Строка-заголовок (уровень 1/2)`}», иерархия
-            спецификации сохраняется.
+            Итог: кандидат с максимальным баллом. Строка-заголовок (без «Кол-ва») кодов не получает — в колонке ТА фиксируется «Строка-заголовок (уровень 1/2)», иерархия спецификации сохраняется.
           </p>
         </div>
       </div>
@@ -261,7 +195,7 @@ export function FormatCard() {
   return (
     <Reveal delay={160}>
       <div className="flex flex-col gap-4 border border-ink-900/12 bg-white/70 p-6 backdrop-blur-[2px] md:flex-row md:items-start md:gap-10">
-        <div className="md:w-64 md:shrink-0">
+        <div className="md:w-72 md:shrink-0">
           <h3 className="font-display text-[15px] font-bold uppercase tracking-wide text-ink-900">
             ВОР.xlsx · 3 листа
           </h3>
@@ -280,19 +214,13 @@ export function FormatCard() {
             ))}
           </ul>
           <p className="mt-4 text-[11.5px] leading-relaxed text-ink-400">
-            В XLSX числа хранятся числами (в русской локали Excel — запятая), «№ п/п» —
-            текстом: ведущие нули не теряются. Дополнительно выгружается{" "}
-            <span className="font-mono text-ink-800">ВОР_с_ТА.csv</span>: UTF-8 BOM, «;»,
-            десятичная запятая, «'001».
+            В XLSX числа хранятся числами (в русской локали Excel — запятая), «№ п/п» — текстом: ведущие нули не теряются. Дополнительно выгружается <span className="font-mono text-ink-800">ВОР_с_ТА.csv</span>: UTF-8 BOM, «;», десятичная запятая, «'001».
           </p>
         </div>
         <div className="flex-1">
           <div className="grid grid-cols-2 gap-px border border-ink-900/15 bg-ink-900/15 sm:grid-cols-3 lg:grid-cols-4">
             {cols.map(([name, kind], i) => (
-              <div
-                key={name}
-                className="group bg-paper-50 px-3 py-2.5 transition-colors hover:bg-brass-100/70"
-              >
+              <div key={name} className="group bg-paper-50 px-3 py-2.5 transition-colors hover:bg-brass-100/70">
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="text-[12px] font-bold text-ink-800">{name}</span>
                   <span className="font-mono text-[10px] font-semibold text-blueprint-600">
