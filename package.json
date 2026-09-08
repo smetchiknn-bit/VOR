@@ -1,7 +1,3 @@
---- package.json (原始)
-
-
-+++ package.json (修改后)
 {
   "name": "sandbox-workspace",
   "private": true,
