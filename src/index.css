@@ -1,7 +1,3 @@
---- src/index.css (原始)
-
-
-+++ src/index.css (修改后)
 @import "tailwindcss";
 
 @theme {
@@ -56,8 +52,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- миллиметровка основного поля ---- */
-/* ---- millimeter graph-paper background for the main area ---- */
 .blueprint-paper {
   background-color: var(--color-paper-100);
   background-image:
@@ -68,8 +62,6 @@ body {
   background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
 }
 
-/* ---- штриховка тёмного сайдбара ---- */
-/* ---- dark sidebar hatching ---- */
 .ink-hatch {
   background-color: var(--color-ink-900);
   background-image: repeating-linear-gradient(
@@ -80,21 +72,17 @@ body {
     radial-gradient(1200px 500px at 110% -10%, rgba(46, 95, 216, 0.16), transparent 60%);
 }
 
-/* ---- scroll reveal ---- */
 .reveal {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal.is-in {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ---- штамп ---- */
-/* ---- stamp animation ---- */
 @keyframes stamp-in {
   0% {
     opacity: 0;
@@ -113,8 +101,6 @@ body {
   animation: stamp-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ---- LED ---- */
-/* ---- LED pulse ---- */
 @keyframes led-pulse {
   0%,
   100% {
@@ -130,8 +116,6 @@ body {
   animation: led-pulse 1.6s ease-in-out infinite;
 }
 
-/* ---- бегущий пунктир ---- */
-/* ---- marching dashes for the pipeline connector ---- */
 @keyframes dash-flow {
   to {
     stroke-dashoffset: -20;
@@ -141,8 +125,6 @@ body {
   animation: dash-flow 1.2s linear infinite;
 }
 
-/* ---- появление строк ---- */
-/* ---- row entry ---- */
 @keyframes row-in {
   from {
     opacity: 0;
@@ -157,8 +139,6 @@ body {
   animation: row-in 0.4s ease both;
 }
 
-/* ---- полосы прогресса ---- */
-/* ---- progress stripes ---- */
 @keyframes stripes-move {
   to {
     background-position: 24px 0;
@@ -178,8 +158,6 @@ body {
   animation: stripes-move 0.8s linear infinite;
 }
 
-/* ---- панель кода ---- */
-/* ---- code panel ---- */
 .code-panel {
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -187,8 +165,6 @@ body {
   tab-size: 4;
 }
 
-/* тонкие скроллбары */
-/* thin scrollbars */
 .slim-scroll::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -206,8 +182,6 @@ body {
   border-radius: 4px;
 }
 
-/* dropzone */
-/* dropzone states */
 .dropzone {
   transition: border-color 0.25s ease, background-color 0.25s ease,
     transform 0.25s ease, box-shadow 0.25s ease;
